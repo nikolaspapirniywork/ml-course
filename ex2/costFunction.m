@@ -20,12 +20,28 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 %
 
+hypothesis = sigmoid(X*theta);
+
+cost_acc = 0;
+
+for i = 1:m
+    current_y = y(i);        
+    cost_acc += current_y * log(hypothesis(i)) + (1 - current_y) * log(1 - hypothesis(i));    
+endfor
+
+J = - (cost_acc / m);
 
 
+sums_for_grad = zeros(m, size(theta,1));
+for i = 1:m
+    for j = 1:size(theta,1)        
+        sums_for_grad(i, j) = (hypothesis(i) - y(i)) * X(i, j);
+    endfor
+endfor 
 
-
-
-
+for j = 1:size(theta,1)    
+    grad(j) = 1/m * sum(sums_for_grad(:, j));
+end
 
 % =============================================================
 
